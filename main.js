@@ -194,3 +194,11 @@ filemenu.addEventListener("input", function(){
 	filemenu.children[0].selected = true;
 	
 });
+
+window.addEventListener("beforeunload", function (e) {if (master.children.length > 0) {
+	e.preventDefault();
+	
+    var confirmationMessage = 'If you leave without saving changes, your work will be lost. Are you sure?';
+    (e || window.event).returnValue = confirmationMessage;
+    return confirmationMessage;
+}});
