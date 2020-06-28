@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<script src="dragscroll/dragscroll.js"></script> <!-- https://github.com/asvd/dragscroll><-->
+		<script src="debug.js"></script>
+		<script src="pre.js"></script>
+		<script src="constants.js"></script>
+		<script src="file.js"></script>
+		<script src="main.js" defer>no js :(</script>
+		<script src="drag.js" defer></script>
+		<script src="tree.js" defer></script>
+		<script src="style.js" defer></script>
+		<script src="undo.js" defer></script>
+		<link rel="stylesheet" href="main.css">
+	</head>
+	<body>
+		<div id="background"></div>
+		<div id="pane">
+			<h1>Better Diagrams v0.4.0</h1>
+			<a href="https://www.example.com">yeet</a>
+			<select id="filemenu" class="option">
+				<option value="header">File...</option>
+				<option value="upload">Open Project</option>
+				<option value="download">Save Project</option>
+				<option value="export">Save as Image</option>
+			</select>
+			<h2>Object Tree</h2>
+			<div id="tree">🌳</div>
+			<!--<h2>Selection Options</h2>
+			<p>Content:</p>
+			<input id="selectcontent" disabled="true" class="option" placeholder="Word"><br>
+			<p>Type:</p>
+			<div id="selectstyle"></div>
+			<div id="buttons">
+				<button id="duplicate">Duplicate</button>
+				<button id="delete">Delete</button>
+			</div>-->
+		</div>
+		<div id="element-type">
+			<button data-variant="_close" onclick="el_type.classList.remove('shown')"><img src="assets/close.svg"></button>
+			<button data-variant="noun" onclick="selectObject('object','noun')"><img src="assets/icons/noun.svg"></button>
+			<button data-variant="verb" onclick="selectObject('object','verb')"><img src="assets/icons/verb.svg"></button>
+			<button data-variant="direct_object" onclick="selectObject('object','direct_object')"><img src="assets/icons/direct_object.svg"></button>
+			<button data-variant="predicate" onclick="selectObject('object','predicate')"><img src="assets/icons/predicate.svg"></button>
+			<button data-variant="adjective" onclick="selectObject('modifier','adjective')"><img src="assets/icons/adjective.svg"></button>
+			<button data-variant="adverb" onclick="selectObject('meta','adverb')"><img src="assets/icons/adverb.svg"></button>
+			<button data-variant="conjunction_left" onclick="selectObject('conjunction','conjunction_left')"><img src="assets/icons/conjunction_left.svg"></button>
+			<button data-variant="conjunction_double" onclick="selectObject('conjunction','conjunction_double')"><img src="assets/icons/conjunction_double.svg"></button>
+			<button data-variant="noun_clause" onclick="selectObject('object_clause','noun_clause')"><img src="assets/icons/noun_clause.svg"></button>
+			<button data-variant="direct_object_clause" onclick="selectObject('object_clause','direct_object_clause')"><img src="assets/icons/direct_object_clause.svg"></button>
+			<button data-variant="adjective_clause" onclick="selectObject('adjective_clause','adjective_clause')"><img src="assets/icons/adjective_clause.svg"></button>
+			<button data-variant="adverb_clause" onclick="selectObject('adverb_clause','adverb_clause')"><img src="assets/icons/adverb_clause.svg"></button>
+			<button data-variant="compound_adj" onclick="selectObject('compound_mod','compound_adj')"><img src="assets/icons/compound_adj.svg"></button>
+		</div>
+		<div id="upload-container">
+			<p class="warning">⚠ Opening a project will overwrite your current one.</p>
+			<input id="upload" type="file" accept="text/plain">
+			<button onclick='document.getElementById("upload-container").classList.remove("shown")'>Cancel</button> <button onclick='FileManager.open(); document.getElementById("upload-container").classList.remove("shown");'>Open</button>
+		</div>
+		<div id="editor-container" class="dragscroll"><canvas id="editor" width="480" height="360" class="notebook-page">no canvas :(</canvas></div>
+		<div id="pos">
+			<span id="pos_x">0</span>, <span id="pos_y">0</span>
+		</div>
+		<a id="hidden-download-thing-dont-touch" download></a>
+		<canvas id="other-hidden-download-thing-dont-touch"></canvas>
+	</body>
+</html>

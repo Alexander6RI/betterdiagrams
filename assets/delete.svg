@@ -1,0 +1,12 @@
+<?xml version="1.0" standalone="no"?>
+
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+<svg width="48" height="48" version="1.1" xmlns="http://www.w3.org/2000/svg">
+	<polygon points="13,14 15,40 33,40 35,14" stroke="black" stroke-width="3" fill="none"/>
+	<polygon points="10,14 10,8 38,8 38,14" stroke="black" stroke-width="3" fill="none"/>
+	<polygon points="18,4 18,8 30,8 30,4" stroke="black" stroke-width="3" fill="none"/>
+	<path d="M18 18 L19 35" stroke="black" stroke-width="3" fill="none"/>
+	<path d="M24 18 L24 35" stroke="black" stroke-width="3" fill="none"/>
+	<path d="M30 18 L29 35" stroke="black" stroke-width="3" fill="none"/>
+</svg>
