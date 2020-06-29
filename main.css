@@ -270,6 +270,7 @@ a {
 	background-clip: text;
 	-webkit-background-clip: text;
 	color: transparent;
+	width: max-content;
 }
 
 a:hover {
