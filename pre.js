@@ -200,7 +200,7 @@ class Element {
 		this.selfHeightDown = Math.ceil(maxFormHeightDown);
 		this.heightDown = Math.ceil(Math.max(maxChildHeightDown, maxFormHeightDown));
 		
-		this.selfHeightUp = Math.ceil(Math.max(maxFormHeightUp, Math.cos(this.rotation)*(this.textStyle.y+TEXT_HEIGHT+TEXT_FLOAT) - Math.sin(this.rotation)*this.textStyle.x))
+		this.selfHeightUp = Math.ceil(Math.max(maxFormHeightUp, Math.cos(this.rotation)*(0-this.textStyle.y+TEXT_HEIGHT+TEXT_FLOAT) - Math.sin(this.rotation)*this.textStyle.x))
 		this.heightUp = Math.max(Math.ceil(maxChildHeightUp), this.selfHeightUp);
 		
 	}
@@ -226,15 +226,10 @@ class Element {
 		
 		// draw connections
 		useContext.strokeStyle = HIGHLIGHT_COLOR;
-		useContext.setLineDash([10, 5]);
 		if (debug.on) for (var i in this.connections) {
 			useContext.beginPath();
 			var connItem = this.connections[i];
-			if (connItem.shape == "point") useContext.arc(connItem.x, connItem.y, 6, 0, 2*Math.PI);
-			else {
-				useContext.moveTo(connItem.x, connItem.y);
-				useContext.lineTo(connItem.dx, connItem.dy);
-			}
+			useContext.arc(connItem.x, connItem.y, 6, 0, 2*Math.PI);
 			useContext.stroke();
 		}
 		
@@ -402,7 +397,7 @@ class AdverbClauseElement extends Element {
 	
 }
 
-class CompoundModElement extends Element { // TODO: has too much heightUp
+class CompoundModElement extends Element {
 	constructor(content, variant) {
 		super(content, "compound_mod", variant);
 		this.rotation = 0;
