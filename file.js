@@ -59,9 +59,8 @@ FileManager.FileParseException.prototype.toString = function(){
 	return `${this.name}: ${this.message}`;
 }
 
-FileManager.parse = function(input){
+FileManager.parse = function(data){
 	
-	var data = JSON.parse(input);
 	if (data.versionString != DATA_VERSION) throw new FileManager.FileParseException("unknown data version: " + data.versionString);
 	
 	var count = 0;
@@ -107,7 +106,7 @@ FileManager.open = function(){
 	
 	const reader = new FileReader()
 	reader.onload = function(event){
-		master.children = FileManager.parse(event.target.result);
+		master.children = FileManager.parse(JSON.parse(event.target.result));
 		updateTree();
 		updateOptions();
 		calcCanvasSize(true);
@@ -121,4 +120,15 @@ FileManager.export = function(){
 	calcCanvasSize(true, document.getElementById("other-hidden-download-thing-dont-touch"), document.getElementById("other-hidden-download-thing-dont-touch").getContext("2d"), 0, 0);
 	document.getElementById("hidden-download-thing-dont-touch").setAttribute('href', document.getElementById("other-hidden-download-thing-dont-touch").toDataURL());
 	document.getElementById("hidden-download-thing-dont-touch").click();
+}
+
+FileManager.openExample = function(x){
+	
+	if (x == 1) master.children = FileManager.parse(EXAMPLE_1);
+	if (x == 2) master.children = FileManager.parse(EXAMPLE_2);
+	if (x == 3) master.children = FileManager.parse(EXAMPLE_3);
+	
+	updateTree();
+	calcCanvasSize(true);
+	
 }
