@@ -18,7 +18,7 @@
 	<body>
 		<div id="background"></div>
 		<div id="pane">
-			<h1>Better Diagrams v0.4.1</h1><!--TODO: instructions-->
+			<h1>Better Diagrams v0.5.0</h1><!--TODO: instructions-->
 			<a href="https://github.com/Alexander6RI/betterdiagrams/">View on GitHub</a>
 			<select id="filemenu" class="option">
 				<option value="header">File...</option>
@@ -57,10 +57,11 @@
 		<div id="upload-container">
 			<p class="warning">⚠ Opening a project will overwrite your current one.</p>
 			<input id="upload" type="file" accept="text/plain">
-			<button onclick='document.getElementById("upload-container").classList.remove("shown")'>Cancel</button> <button onclick='FileManager.open(); document.getElementById("upload-container").classList.remove("shown");'>Open</button>
+			<button onclick='document.getElementById("upload-container").classList.remove("shown")'>Cancel</button> <button onclick='FileManager.open(); document.getElementById("upload-container").classList.remove("shown");'>Open</button><br><br>
+			<button onclick='FileManager.openExample(1); document.getElementById("upload-container").classList.remove("shown");'>Example 1</button> <button onclick='FileManager.openExample(2); document.getElementById("upload-container").classList.remove("shown");'>Example 2</button> <button onclick='FileManager.openExample(3); document.getElementById("upload-container").classList.remove("shown");'>Example 3</button>
 		</div>
 		<div id="editor-container" class="dragscroll"><canvas id="editor" width="480" height="360" class="notebook-page">no canvas :(</canvas></div>
-		<div id="pos">
+		<div id="pos" class="hidden">
 			<span id="pos_x">0</span>, <span id="pos_y">0</span>
 		</div>
 		<a id="hidden-download-thing-dont-touch" download></a>
