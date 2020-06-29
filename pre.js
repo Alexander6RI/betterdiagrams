@@ -19,9 +19,9 @@ const Variations = { // resources for types of elements
 	}, predicate: {
 		form: (cal) => [[0-TEXT_HEIGHT*0.25, 0-TEXT_HEIGHT, false, []], [0, 0, true, []], [0, 0, false, []], [Math.max(cal.width,cal.widthH), 0, true, []]]
 	}, adjective: {
-		form: (cal) => [[0, 0, false, []], [Math.max(BUFFER_D+cal.width, Math.ceil(1/Math.sin(cal.rotation)*cal.connections[0].spaceUp)), 0, true, []]]
+		form: (cal) => [[0, 0, false, []], [Math.ceil(Math.max(BUFFER_D+cal.width, 1/Math.sin(cal.rotation)*cal.connections[0].spaceUp, 1/Math.cos(cal.rotation)*cal.connections[1].space)), 0, true, []]]
 	}, adverb: {
-		form: (cal) => [[0, 0, false, []], [0, TEXT_HEIGHT+TEXT_FLOAT, true, []], [BUFFER_H+cal.width, TEXT_HEIGHT+TEXT_FLOAT, true, []]]
+		form: (cal) => [[0, 0, false, []], [0, TEXT_HEIGHT+TEXT_FLOAT, true, []], [BUFFER_H+cal.width, TEXT_HEIGHT+TEXT_FLOAT, true, []], [2*BUFFER_H+cal.width, TEXT_HEIGHT+TEXT_FLOAT, false, []] /* < spacer*/]
 	}, conjunction_left: {
 		form: (cal) => [
 			[cal.width/2, 0-cal.width/2, false, []], 
@@ -264,7 +264,7 @@ class Element {
 			// draw all elements that are children of this connection
 			var connItem = this.connections[ii];
 			
-			drawAll(connItem.children, [Math.ceil(Math.cos(this.rotation)*connItem.x+Math.sin(this.rotation)*connItem.y), Math.ceil(Math.cos(this.rotation)*connItem.y+Math.sin(this.rotation)*connItem.x)], useCanvas, useContext);
+			drawAll(connItem.children, [Math.ceil(Math.cos(this.rotation)*connItem.x+Math.sin(this.rotation)*connItem.y), Math.ceil(Math.cos(this.rotation)*connItem.y+Math.sin(this.rotation)*connItem.x)], useCanvas, useContext, connItem.rotation);
 		}
 		
 		useContext.translate(-x,-y);
@@ -282,7 +282,8 @@ class ObjectElement extends Element {
 		this.textStyle = {x: BUFFER_H, y: 0-TEXT_FLOAT, align: "left", rotation: 0};
 		this.rotation = 0;
 		this.connections = [
-			new LineConnection(this, "Bottom", () => [BUFFER_H, 0], () => [this.width, 0], ["adjective", "adjective_clause", "adverb_clause", "compound_adj"])
+			//new LineConnection(this, "Bottom", () => [BUFFER_H, 0], () => [this.width, 0], ["adjective", "adjective_clause", "adverb_clause", "compound_adj"])
+			new Connection(this, "Bottom", () => [BUFFER_H, 0], ["adjective", "adjective_clause", "adverb_clause", "compound_adj"])
 		];
 	}
 	
@@ -294,8 +295,9 @@ class ModifierElement extends Element {
 		this.textStyle = {x: BUFFER_D, y: 0-TEXT_FLOAT, align: "left", rotation: 0};
 		this.rotation = 45*Math.PI/180;
 		this.connections = [
-			new Connection(this, "End", function(){return [Math.max(BUFFER_D+this.caller.width, Math.ceil(1/Math.sin(this.caller.rotation)*this.spaceUp)), 0]}, ["noun", "verb", "direct_object", "predicate", "conjunction_left", "conjunction_double", "noun_clause", "direct_object_clause"]),
-			new LineConnection(this, "Bottom", () => [BUFFER_D, 0], () => [BUFFER_H+this.width, 0], ["adverb"])
+			new Connection(this, "End", () => [Math.ceil(Math.max(BUFFER_D+this.width, 1/Math.sin(this.rotation)*this.connections[0].spaceUp, 1/Math.cos(this.rotation)*this.connections[1].space)), 0], ["noun", "verb", "direct_object", "predicate", "conjunction_left", "conjunction_double", "noun_clause", "direct_object_clause"]),
+			//new LineConnection(this, "Bottom", () => [BUFFER_D, 0], () => [BUFFER_H+this.width, 0], ["adverb"])
+			new Connection(this, "Bottom", () => [BUFFER_D, 0], ["adverb"], false, 45*Math.PI/180)
 		];
 	}
 	
@@ -305,7 +307,7 @@ class ModifierElement extends Element {
 class MetaElement extends Element {
 	constructor(content, variant) {
 		super(content, "meta", variant);
-		this.textStyle = {x: BUFFER_H, y: TEXT_HEIGHT, align: "left", rotation: 0};
+		this.textStyle = {x: BUFFER_H*2, y: TEXT_HEIGHT, align: "left", rotation: 0};
 		this.rotation = 45*Math.PI/180;
 		this.connections = [];
 	}
@@ -400,7 +402,7 @@ class AdverbClauseElement extends Element {
 	
 }
 
-class CompoundModElement extends Element {
+class CompoundModElement extends Element { // TODO: has too much heightUp
 	constructor(content, variant) {
 		super(content, "compound_mod", variant);
 		this.rotation = 0;
@@ -424,7 +426,7 @@ class CompoundModElement extends Element {
 
 
 class Connection {
-	constructor(caller, name, pos1, accepts, single=false) {
+	constructor(caller, name, pos1, accepts, single=false, rotation=0) {
 		this.caller = caller;
 		this.shape = "point";
 		this.name = name;
@@ -438,6 +440,7 @@ class Connection {
 		this.spaceUp = 0;
 		this.spaceLeft = 0;
 		this.single = single;
+		this.rotation = rotation;
 		this.children = [];
 	}
 	
@@ -468,7 +471,7 @@ class Connection {
 }
 
 
-class LineConnection extends Connection {
+/*class LineConnection extends Connection {
 	constructor(caller, name, pos1, pos2, accepts) {
 		super(caller, name, pos1, accepts);
 		this.shape = "line";
@@ -487,11 +490,11 @@ class LineConnection extends Connection {
 		this.dx = finalPos2[0];
 		this.dy = finalPos2[1];
 	}
-}
+}*/ // not really necessary
 
 
 class ObjectClauseConnection extends Connection {
-	constructor(caller, name, pos1, accepts) {
+	constructor(caller, name, pos1, accepts, rotation=0) {
 		super(caller, name, pos1, accepts);
 		this.attachX = 2*BUFFER_H
 		this.attachY = 0-BUFFER_V;
@@ -572,7 +575,7 @@ function getTagIndex(tag, includeNodes=false) {
 }
 
 
-function drawAll(array, pos=[0, 0], useCanvas=canvas, useContext=ctx) {
+function drawAll(array, pos=[0, 0], useCanvas=canvas, useContext=ctx, rotation=0) {
 
 	/*var last = pos;
 	
@@ -588,9 +591,10 @@ function drawAll(array, pos=[0, 0], useCanvas=canvas, useContext=ctx) {
 		
 	var spaceDrawn = 0;
 	
-	for (var i = 0; i < array.length; i++) { // TODO: assumes all line connections are horizontal, messes with adverbs
+	for (var i = 0; i < array.length; i++) {
 		
-		array[i].drawElement(pos[0]+spaceDrawn, pos[1], useCanvas, useContext);
+		var drawY = Math.tan(rotation)*spaceDrawn;
+		array[i].drawElement(pos[0]+spaceDrawn, pos[1]+drawY, useCanvas, useContext);
 		spaceDrawn += array[i].widthH + array[i].widthLeft;
 		
 	}
