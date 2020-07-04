@@ -96,9 +96,6 @@ h2 {
 	box-sizing: border-box;
 	height: 2em;
 	padding: 3px;
-	border-bottom: 2px solid #D0D0D0;
-	background: #FFFFFF;
-	transition: background 0.1s;
 	white-space: nowrap;
 	display: flex;
 }
@@ -109,15 +106,13 @@ h2 {
 	max-height: 200em;
 	transition: max-height 0.5s cubic-bezier(.65,.05,.36,1);
 	overflow: hidden;
+	border-bottom: 2px solid #D0D0D0;
+	background: #FFFFFF;
 }
 
 .item-parent-hidden {
 	max-height: 2em;
 }
-
-/*[type=item-parent] > * {
-	margin-left: 1em;
-}*/
 
 .item-connection::before {
 	padding: 3px;
@@ -130,9 +125,23 @@ h2 {
 }
 
 .item-connection {
-	border-bottom: 2px solid #D0D0D0;
+	border-top: 2px solid #D0D0D0;
+	border-left: 2px solid #D0D0D0;
 	background-color: #F0F0F0;
 	padding-left: 0.75em;
+	margin-left: 0.75em;
+}
+
+/*.item-connection:last-of-type {
+	margin-bottom: 0.75em;
+	border-bottom: 2px solid #D0D0D0;
+}*/
+
+.item-connection[conn-name=Master] {
+	border-top: none;
+	border-left: none;
+	border-bottom: 2px solid #D0D0D0;
+	margin-left: 0px;
 }
 
 .micro-button {
@@ -142,7 +151,7 @@ h2 {
 	width: 1.5em;
 	text-align: center;
 	cursor: default;
-	transition: background-color 0.1s;
+	transition: background-color 0.2s;
 }
 
 .micro-button:hover {
@@ -169,7 +178,7 @@ h2 {
 	padding-right: calc(100% - 1.5em);
 	text-align: center;
 	cursor: default;
-	transition: background-color 0.1s;
+	transition: background-color 0.2s;
 }
 
 .refresh-tree {
@@ -182,7 +191,7 @@ h2 {
 	padding: 3px;
 	box-sizing: content-box;
 	background: #FFFFFF;
-	transition: background 0.1s, color 0.1s;
+	transition: background 0.2s, color 0.2s;
 }
 
 .option:disabled {
@@ -195,7 +204,7 @@ button {
 	border: 2px solid #D0D0D0;
 	box-sizing: content-box;
 	background: #FFFFFF;
-	transition: background 0.1s, color 0.1s, border-color 0.1s;
+	transition: background 0.2s, color 0.2s, border-color 0.2s;
 }
 
 button:hover {
@@ -274,7 +283,7 @@ a {
 }
 
 a:hover {
-	background: linear-gradient(90deg,#ff8a00,#e52e71);
+	background: linear-gradient(90deg,#0075ff,#2ee5a2);
 	background-clip: text;
 	-webkit-background-clip: text;
 }
@@ -286,7 +295,7 @@ a:hover {
 	vertical-align: middle;
 	border: 2px solid #D0D0D0;
 	background-color: #FFFFFF;
-	transition: border-color 0.1s;
+	transition: border-color 0.2s;
 }
 
 .icon:hover {
@@ -296,14 +305,16 @@ a:hover {
 #element-type {
 	display: none;
 	position: absolute;
-	inset: 20%;
-	background-color: #F0F0F088;
+	margin: 20vh 20vw auto 20vw;
+	background-color: #0F0F0F88;
 	border: 2px solid #D0D0D0;
 	box-sizing: border-box;
+	flex-wrap: wrap;
+	justify-content: space-evenly;
 }
 
 #element-type.shown {
-	display: block;
+	display: flex;
 	text-align: center;
 }
 
@@ -311,7 +322,8 @@ a:hover {
 	min-width: 96px;
 	min-height: 96px;
 	display: inline-block;
-	margin: 2px;
+	margin: 4px;
+	margin-bottom: 8px;
 }
 
 #element-type button img {
@@ -321,6 +333,21 @@ a:hover {
 
 button img {
 	pointer-events: none;
+}
+
+input.enter-content {
+	width: 50%;
+	display: block;
+	margin: 10px 25%;
+	padding: 10px;
+	height: 1em;
+	border: 2px solid #D0D0D0;
+	background: #FFFFFF;
+	transition: border-color 0.2s;
+}
+
+input.enter-content:focus {
+	border-color: #17cbe9;
 }
 
 #hidden-download-thing-dont-touch {display: none;}
@@ -350,6 +377,9 @@ button img {
 	padding: 4px;
 	border: 2px solid #FF0000;
 	border-radius: 6px;
+	width: max-content;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 label input {
@@ -364,7 +394,7 @@ label img {
 	padding: 3px;
 	border: 2px solid #D0D0D0;
 	background: #FFFFFF;
-	transition: background 0.1s, color 0.1s, border-color 0.1s;
+	transition: background 0.2s, color 0.2s, border-color 0.2s;
 }
 
 label img:hover {
@@ -375,7 +405,7 @@ label img:hover {
 	border-bottom: 2px solid #17cbe9;
 }
 
-.item-connection[current-drop-target=true]::before {
+.item-connection[current-drop-target=true]::before { 
 	border-bottom: 2px solid #17cbe9;
 }
 
@@ -391,7 +421,7 @@ input.content {
 	flex-grow: 1;
 	width: 50px;
 	border-bottom: 0px solid #17cbe988;
-	transition: border-bottom 0.1s;
+	transition: border-bottom 0.2s;
 }
 
 input.content:focus {
@@ -435,4 +465,75 @@ input.content:focus {
 
 .optionsBox img {
 	margin-right: 3px;
+}
+
+#highlight {
+	position: absolute;
+	width: 100vw;
+	height: 100vh;
+	box-sizing: border-box;
+	background-color: #00000088;
+	z-index: 499;
+}
+
+#noclick {
+	position: absolute;
+	width: 100vw;
+	height: 100vh;
+	box-sizing: border-box;
+	z-index: 501;
+}
+
+.highlighted {
+	z-index: 500;
+	position: relative;
+	/*outline: 4px solid #FFFFFFEE;*/
+}
+
+button.collapse.highlighted {
+	background: #FFFFFF;
+}
+
+#tutorialMessage {
+	z-index: 502;
+	position: absolute;
+	width: 220px;
+	background: #FFFFFFD0;
+	padding: 20px;
+	border: 2px solid #D0D0D0;
+	top: 25vh;
+	left: 50vw;
+	transform: translateX(-50%);
+	transition: left 0.5s, top 0.5s;
+}
+
+.tutorial-button {
+	margin-left: auto;
+	margin-top: 5px;
+	width: 1.5em;
+	height: 1.5em;
+	display: block;
+}
+
+#tutorialMessage img {
+	max-width: 100%;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+#tutorialPopup {
+	position: absolute;
+	left: -15em;
+	bottom: 2em;
+	width: 8em;
+	height: min-content;
+	background: #FFFFFFD0;
+	border: 2px solid #D0D0D0;
+	padding: 15px;
+	transition: left 0.5s;
+	text-align: center;
+}
+
+#tutorialPopup.shown {
+	left: 2em;
 }
