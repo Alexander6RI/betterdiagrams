@@ -100,9 +100,11 @@ function newObject(event) {
 	
 	parentConnection = connectionElement.tether;
 	
+	el_type.children[0].value = "";
+	
 	if (parentConnection.single == false || parentConnection.children.length == 0) {
 	
-		for (var g = 0; g < el_type.childElementCount; g++) {
+		for (var g = 1; g < el_type.childElementCount; g++) {
 			var child = el_type.children[g];
 			if (parentConnection.accepts.includes(child.dataset.variant) || child.dataset.variant == "_close") child.removeAttribute("disabled");
 			else child.disabled = "true";
@@ -118,12 +120,17 @@ function selectObject(type, variant) {
 	
 	el_type.classList.remove("shown");
 	
+	// content
+	var newContent = document.getElementById("enter-content").value;
+	if (newContent == "") newContent = NOUN_WORDS[Math.floor(Math.random() * NOUN_WORDS.length)];
+	else newContent = document.getElementById("enter-content").value;
+	
 	// push new child to connection
 	var newChild;
-	if (type == "object") newChild = new ObjectElement(NOUN_WORDS[Math.floor(Math.random() * NOUN_WORDS.length)], variant);
-	else if (type == "modifier") newChild = new ModifierElement(NOUN_WORDS[Math.floor(Math.random() * NOUN_WORDS.length)], variant);
-	else if (type == "meta") newChild = new MetaElement(NOUN_WORDS[Math.floor(Math.random() * NOUN_WORDS.length)], variant);
-	else if (type == "conjunction") newChild = new ConjunctionElement(NOUN_WORDS[Math.floor(Math.random() * NOUN_WORDS.length)], variant);
+	if (type == "object") newChild = new ObjectElement(newContent, variant);
+	else if (type == "modifier") newChild = new ModifierElement(newContent, variant);
+	else if (type == "meta") newChild = new MetaElement(newContent, variant);
+	else if (type == "conjunction") newChild = new ConjunctionElement(newContent, variant);
 	else if (type == "object_clause") newChild = new ObjectClauseElement("", variant);
 	else if (type == "adjective_clause") newChild = new AdjectiveClauseElement(NOUN_WORDS[Math.floor(Math.random() * NOUN_WORDS.length)], variant);
 	else if (type == "adverb_clause") newChild = new AdverbClauseElement(NOUN_WORDS[Math.floor(Math.random() * NOUN_WORDS.length)], variant);
