@@ -46,11 +46,12 @@ FileManager.compile = function(){
 FileManager.save = function(){
 	
 	document.getElementById("hidden-download-thing-dont-touch").setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(JSON.stringify(FileManager.compile())));
+	document.getElementById("hidden-download-thing-dont-touch").setAttribute('download', 'diagram.dia');
 	document.getElementById("hidden-download-thing-dont-touch").click();
 	
 }
 
-FileManager.FileParseException = function(message){
+FileManager.FileParseException = function(message){ // TODO: extend error class
 	this.message = message;
 	this.name = "FileParseException";
 }

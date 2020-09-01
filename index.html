@@ -58,7 +58,7 @@
 		</div>
 		<div id="upload-container">
 			<p class="warning">⚠ Opening a project will overwrite your current one.</p>
-			<input id="upload" type="file" accept="text/plain">
+			<input id="upload" type="file" accept="text/plain,.dia">
 			<button onclick='document.getElementById("upload-container").classList.remove("shown")'>Cancel</button> <button onclick='FileManager.open(); document.getElementById("upload-container").classList.remove("shown");'>Open</button><br><br>
 			<button onclick='FileManager.openExample(1); document.getElementById("upload-container").classList.remove("shown");'>Example 1</button> <button onclick='FileManager.openExample(2); document.getElementById("upload-container").classList.remove("shown");'>Example 2</button> <button onclick='FileManager.openExample(3); document.getElementById("upload-container").classList.remove("shown");'>Example 3</button>
 		</div>
