@@ -120,6 +120,7 @@ FileManager.open = function(){
 FileManager.export = function(){
 	calcCanvasSize(true, document.getElementById("other-hidden-download-thing-dont-touch"), document.getElementById("other-hidden-download-thing-dont-touch").getContext("2d"), 0, 0);
 	document.getElementById("hidden-download-thing-dont-touch").setAttribute('href', document.getElementById("other-hidden-download-thing-dont-touch").toDataURL());
+	document.getElementById("hidden-download-thing-dont-touch").setAttribute('download', 'diagram.png');
 	document.getElementById("hidden-download-thing-dont-touch").click();
 }
 
