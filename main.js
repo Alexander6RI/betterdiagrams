@@ -1,4 +1,4 @@
-var canvas = document.getElementById("editor"); // TODO: test in edge
+var canvas = document.getElementById("editor");
 var ctx = canvas.getContext("2d");
 
 var pane = document.getElementById("pane");
@@ -191,6 +191,7 @@ filemenu.addEventListener("input", function(){
 	if (filemenu.value == "download") FileManager.save();
 	if (filemenu.value == "upload") document.getElementById("upload-container").classList.add("shown");
 	if (filemenu.value == "export") FileManager.export();
+	if (filemenu.value == "share") FileManager.share();
 	filemenu.children[0].selected = true;
 	
 });
@@ -202,3 +203,18 @@ window.addEventListener("beforeunload", function (e) {if (master.children.length
     (e || window.event).returnValue = confirmationMessage;
     return confirmationMessage;
 }});
+
+// check if this is a shared url containing data
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+if (urlParams.get("sharedDia") != null) {
+	
+	try {
+		master.children = FileManager.parse(JSON.parse(urlParams.get("sharedDia")));
+		updateTree();
+		calcCanvasSize(true);
+	} catch(e) {
+		console.warn(e);
+	}
+	
+}
