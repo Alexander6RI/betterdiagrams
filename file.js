@@ -43,10 +43,12 @@ FileManager.compile = function(){
 	
 }
 
+FileManager.defaultFileName = "diagram.dia";
+
 FileManager.save = function(){
 	
 	document.getElementById("hidden-download-thing-dont-touch").setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(JSON.stringify(FileManager.compile())));
-	document.getElementById("hidden-download-thing-dont-touch").setAttribute('download', 'diagram.dia');
+	document.getElementById("hidden-download-thing-dont-touch").setAttribute('download', FileManager.defaultFileName);
 	document.getElementById("hidden-download-thing-dont-touch").click();
 	
 }
@@ -132,5 +134,43 @@ FileManager.openExample = function(x){
 	
 	updateTree();
 	calcCanvasSize(true);
+	
+}
+
+FileManager.dataURLToFile = function(dataurl, filename) {
+
+	try {
+		var arr = dataurl.split(','),
+			mime = arr[0].match(/:(.*?);/)[1],
+			bstr = atob(arr[1]), 
+			n = bstr.length, 
+			u8arr = new Uint8Array(n);
+			
+	} catch(e) {
+		console.warn(e);
+		console.log(arr[1]);
+	}
+	while(n--){
+		u8arr[n] = bstr.charCodeAt(n);
+	}
+	
+	return new File([u8arr], filename, {type:mime});
+}
+
+FileManager.share = function(){
+	
+	var shareData = {
+		title: "Grammar diagram",
+		text: "Diagram made with Better Diagrams"
+	};
+	
+	shareData.url = window.location.protocol+"//"+window.location.host+window.location.pathname + '?sharedDia=' + encodeURIComponent(JSON.stringify(FileManager.compile()));
+	
+	if (navigator.share != undefined) navigator.share(shareData).catch(err => console.warn('error encountered while sharing: ' + err));
+	else {
+		navigator.clipboard.writeText(shareData.url);
+		alert("URL has been copied to clipboard");
+	}
+	//else console.warn("could not share");
 	
 }
